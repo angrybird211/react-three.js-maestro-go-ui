@@ -478,3 +478,150 @@ span.flatpickr-weekday {
 .intelooMain{
   margin-top:130px;
 }
+
+// monolic page
+.bread-bar {
+  position: absolute;
+  width: 100%;
+  top: 124px;
+  padding: 8px 8px 8px 3rem;  
+  background: #212121;
+  text-transform: uppercase;
+  z-index: 99;
+}   
+
+.mono-mic {
+  .intelBar {
+    display: block;
+    top: 170px;
+    left: 0;
+    width: 250px;
+    padding: 0;
+    border: none;
+    background: #222736;
+  }
+
+  .link {
+    display: block;
+    padding: 4.7rem 0 10px 16px;
+    background: #353a48;
+    margin-bottom: 12px;
+    border-radius: 0 1.5rem 1.5rem 0;
+    transition: background .25s;
+
+    i {
+      margin-right: 1rem;
+      font-size: 40px;
+      color: #212226;
+    }
+
+    span {
+      font-size: 20px;
+      color: #697680;
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+
+    &:hover, &.active {
+      background: #304f54;
+
+      span {
+        color: #fff;
+      }
+
+      i {
+        color: #161619;
+      }
+    }
+  }
+
+  .data-source {
+    position: absolute;
+    top: 190px;
+    right: 60px;
+    bottom: 55px;
+    left: 320px;
+    padding: 20px;
+    background: #2c3142;
+    border-radius: 5px;
+
+    h3,h4 {
+      color: #a6b0cf;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+
+    h4 {
+      margin-bottom: 0;
+      font-size: 12px;
+    }
+  }
+
+  .source-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .title-right {
+    margin: 1rem 20rem 0 0;
+
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
+  .table-wrapper {
+    height: 89.8%;
+    margin-top: 20px;
+    overflow: hidden auto;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th, td {
+    padding: 10px 20px 10px 10px;
+    border: 1px solid #2f3a4c;
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      background-color: #34384c;
+    }
+  }
+}
+
+.mono-app {
+  .intelBar {
+    background: #000011;
+  }
+}
+
+.scrollable {
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
+  &::-webkit-scrollbar-thumb {
+    margin-right: 2px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    transition: background .25s;
+  }
+
+  &:hover::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.25);
+    border-radius: 5px;
+  }
+}

@@ -221,539 +221,539 @@ const autograph = props => {
         setData(res.data);
       });
   }, []);
-const [data, setData] = useState([])
+  const [data, setData] = useState([])
 
-//const { useRef, useCallback } = React;
-const [dynamic_title, setdynamic_title] = useState("")
-const [dynamic_description, setdynamic_description] = useState("")
-const [basic, setbasic] = useState(false)
+  //const { useRef, useCallback } = React;
+  const [dynamic_title, setdynamic_title] = useState("")
+  const [dynamic_description, setdynamic_description] = useState("")
+  const [basic, setbasic] = useState(false)
 
-const onNodeClick = function(node, event) {
+  const onNodeClick = function (node, event) {
 
-  for (var entry in data[1]["UI-Interface"]){
-    if(data[1]["UI-Interface"][entry].ip == node.id){
-      window.alert("Node: " + node.id + " has status " + data[1]["UI-Interface"][entry].status)
+    for (var entry in data[1]["UI-Interface"]) {
+      if (data[1]["UI-Interface"][entry].ip == node.id) {
+        window.alert("Node: " + node.id + " has status " + data[1]["UI-Interface"][entry].status)
+      }
     }
+
   }
+  return (
+    <React.Fragment>
+      <div className="intelBar pt-3">
+        <span>TechKnow - AutoGraph</span>
+        <ButtonToolbar className="position-absolute m-1 top-0 end-0">
+          <ButtonGroup className="infoTools">
+            <Button
+              className="gBack"
+              size="sm"
+              color="info"
+              type="button"
+              onClick={() => {
+                tog_Top();
+              }}
+              data-toggle="modal"
+              data-target="#topology"
 
-}
-return (
-<React.Fragment>
-                <div className="intelBar pt-3">
-                  <span>TechKnow - AutoGraph</span>
-                          <ButtonToolbar className="position-absolute m-1 top-0 end-0">
-                              <ButtonGroup className="infoTools">
-                                <Button
-                                  className="gBack"
-                                  size="sm"
-                                  color="info"
-                                  type="button"
-                                  onClick={() => {
-                                    tog_Top();
-                                  }}
-                                  data-toggle="modal"
-                                  data-target="#topology"
+            >
+              <HiIcon.HiOutlinePhotograph className="px-25w" />
+            </Button>
+            <Button
+              className="gBack"
+              size="sm"
+              color="info"
+              type="button"
+              onClick={() => {
+                console.log("jey clicked")
+                tog_Mi();
+              }}
+              data-toggle="modal"
+              data-target="#model-info"
+            >
+              <HiIcon.HiOutlineInformationCircle className="px-25w" />
+            </Button>
+          </ButtonGroup>
+        </ButtonToolbar>
+        <Modal
+          size="xl"
+          className="gBack"
+          isOpen={modal_top}
+          toggle={() => {
+            tog_Top();
+          }}
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="myTop"
+            >
+              Existing Topology Schematic
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_top(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <img className="topIMG" src={"/images/demoTop.png"}></img>
+          </div>
+        </Modal>
+        <Modal
+          size="xl"
+          isOpen={modal_mi}
+          toggle={() => {
+            tog_Mi();
+          }}
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="graphModelInfo"
+            >
+              AutoGraph - LiveGraph
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_mi(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <p>Cras mattis consectetur purus sit amet fermentum.
+              Cras justo odio, dapibus ac facilisis in,
+              egestas eget quam. Morbi leo risus, porta ac
+              consectetur ac, vestibulum at eros.</p>
+            <p>Praesent commodo cursus magna, vel scelerisque
+              nisl consectetur et. Vivamus sagittis lacus vel
+              augue laoreet rutrum faucibus dolor auctor.</p>
+            <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
+              Praesent commodo cursus magna, vel scelerisque
+              nisl consectetur et. Donec sed odio dui. Donec
+              ullamcorper nulla non metus auctor
+              fringilla.</p>
+          </div>
+        </Modal>
 
-                                >
-                                  <HiIcon.HiOutlinePhotograph className="px-25w"/>
-                                </Button>
-                                <Button
-                                  className="gBack"
-                                  size="sm"
-                                  color="info"
-                                  type="button"
-                                  onClick={() => {
-                                    console.log("jey clicked")
-                                    tog_Mi();
-                                  }}
-                                  data-toggle="modal"
-                                  data-target="#model-info"
-                                >
-                                <HiIcon.HiOutlineInformationCircle className="px-25w"/>
-                                </Button>
-                              </ButtonGroup>
-                            </ButtonToolbar>
-                            <Modal
-                              size="xl"
-                              className="gBack"
-                              isOpen={modal_top}
-                              toggle={() => {
-                                tog_Top();
-                              }}
-                            >
-                            <div className="modal-header">
-                              <h5
-                                className="modal-title mt-0"
-                                id="myTop"
-                              >
-                                Existing Topology Schematic
+        <div className="search-box chat-search-box py-3 mb-3">
+          <div className="position-relative">
+            <Input
+              onKeyUp={searchUsers}
+              id="search-user"
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+            />
+            <i className="bx bx-search-alt search-icon" />
+          </div>
+        </div>
+
+        <div className="chat-leftsidebar-nav">
+          <Nav pills justified>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  active: activeTab === "1",
+                })}
+                onClick={() => {
+                  toggleTab("1");
+                }}
+              >
+                <i className="bx bx-chat font-size-20 d-sm-none" />
+                <span className="d-none d-sm-block">AutoGraph</span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  active: activeTab === "2",
+                })}
+                onClick={() => {
+                  toggleTab("2");
+                }}
+              >
+                <i className="bx bx-group font-size-20 d-sm-none" />
+                <span className="d-none d-sm-block">Groups</span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({
+                  active: activeTab === "3",
+                })}
+                onClick={() => {
+                  toggleTab("3");
+                }}
+              >
+                <i className="bx bx-book-content font-size-20 d-sm-none" />
+                <span className="d-none d-sm-block">Objects</span>
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={activeTab} className="pt-3 pb-0">
+            <TabPane tabId="1">
+              <div>
+                <h5 className="font-size-14 mb-3">Graph EndPoints</h5>
+                <ul className="list-unstyled chat-list" id="recent-list">
+                  <PerfectScrollbar style={{ height: "500px" }}>
+                    {map(chats, chat => (
+                      <li
+                        key={chat.id + chat.status}
+                        className={
+                          currentRoomId === chat.roomId
+                            ? "active"
+                            : ""
+                        }
+                      >
+                        <Link
+                          to="#"
+                          onClick={() => {
+                            userChatOpen(
+                              chat.id,
+                              chat.name,
+                              chat.status,
+                              chat.roomId
+                            );
+                          }}
+                        >
+                          <div className="d-flex">
+                            <div className="align-self-center me-3">
+                              <i
+                                className={
+                                  chat.status === "online"
+                                    ? "mdi mdi-circle text-success font-size-10"
+                                    : chat.status === "intermediate"
+                                      ? "mdi mdi-circle text-warning font-size-10"
+                                      : "mdi mdi-circle font-size-10"
+                                }
+                              />
+                            </div>
+                            <div className="align-self-center me-3">
+                            </div>
+                            <div className="flex-grow-1 overflow-hidden">
+                              <h5 className="text-truncate font-size-14 mb-1">
+                                {chat.name}
                               </h5>
-                              <button
-                                onClick={() => {
-                                  setmodal_top(false);
-                                }}
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <span aria-hidden="true">&times;</span>
-                              </button>
+                              <p className="text-truncate mb-0">
+                                {chat.description}
+                              </p>
                             </div>
-                            <div className="modal-body">
-                                  <img className="topIMG" src={"/images/demoTop.png"}></img>
+                            <div className="font-size-11">
+                              {chat.time}
                             </div>
-                          </Modal>
-                            <Modal
-                              size="xl"
-                              isOpen={modal_mi}
-                              toggle={() => {
-                                tog_Mi();
-                              }}
-                            >
-                            <div className="modal-header">
-                              <h5
-                                className="modal-title mt-0"
-                                id="graphModelInfo"
-                              >
-                                AutoGraph - LiveGraph
-                              </h5>
-                              <button
-                                onClick={() => {
-                                  setmodal_mi(false);
-                                }}
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div className="modal-body">
-                              <p>Cras mattis consectetur purus sit amet fermentum.
-                                Cras justo odio, dapibus ac facilisis in,
-                                egestas eget quam. Morbi leo risus, porta ac
-                                consectetur ac, vestibulum at eros.</p>
-                              <p>Praesent commodo cursus magna, vel scelerisque
-                                nisl consectetur et. Vivamus sagittis lacus vel
-                                augue laoreet rutrum faucibus dolor auctor.</p>
-                              <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
-                                Praesent commodo cursus magna, vel scelerisque
-                                nisl consectetur et. Donec sed odio dui. Donec
-                                ullamcorper nulla non metus auctor
-                                fringilla.</p>
-                            </div>
-                          </Modal>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </PerfectScrollbar>
+                </ul>
+              </div>
+            </TabPane>
 
-                      <div className="search-box chat-search-box py-3 mb-3">
-                        <div className="position-relative">
-                          <Input
-                            onKeyUp={searchUsers}
-                            id="search-user"
-                            type="text"
-                            className="form-control"
-                            placeholder="Search..."
-                          />
-                          <i className="bx bx-search-alt search-icon" />
+            <TabPane tabId="2">
+              <h5 className="font-size-14 mb-3">Groups</h5>
+              <ul className="list-unstyled chat-list">
+                <PerfectScrollbar style={{ height: "500px" }}>
+                  {groups &&
+                    groups.map(group => (
+                      <li key={"test" + group.image}>
+                        <Link
+                          to="#"
+                          onClick={() => {
+                            userChatOpen(
+                              group.id,
+                              group.name,
+                              group.status,
+                              Math.floor(Math.random() * 100)
+                            );
+                          }}
+                        >
+                          <div className="d-flex align-items-center">
+                            <div className="avatar-xs me-3">
+                              <span className="text-primary">
+                                icon
+                              </span>
+                            </div>
+                            <div className="flex-grow-1">
+                              <h5 className="font-size-14 mb-0">
+                                {group.name}
+                              </h5>
+                            </div>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                </PerfectScrollbar>
+              </ul>
+            </TabPane>
+
+            <TabPane tabId="3">
+              <h5 className="font-size-14 mb-3">Objects</h5>
+
+              <div>
+                <PerfectScrollbar style={{ height: "500px" }}>
+                  {contacts &&
+                    contacts.map(contact => (
+                      <div
+                        key={"test_" + contact.category}
+                        className={
+                          contact.category === "A" ? "" : "mt-4"
+                        }
+                      >
+                        <div className="avatar-xs mb-0">
+                          <span className="text-primary">
+                            {contact.category}
+                          </span>
                         </div>
+
+                        <ul className="list-unstyled chat-list">
+                          {contact.child.map(array => (
+                            <li key={"test" + array.id}>
+                              <Link
+                                to="#"
+                                onClick={() => {
+                                  userChatOpen(
+                                    array.id,
+                                    array.name,
+                                    array.status,
+                                    Math.floor(Math.random() * 100)
+                                  );
+                                }}
+                              >
+                                <h5 className="font-size-14 mb-0">
+                                  {array.name}
+                                </h5>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
+                    ))}
+                </PerfectScrollbar>
+              </div>
+            </TabPane>
+          </TabContent>
+        </div>
+      </div>
 
-                      <div className="chat-leftsidebar-nav">
-                        <Nav pills justified>
-                          <NavItem>
-                            <NavLink
-                              className={classnames({
-                                active: activeTab === "1",
-                              })}
-                              onClick={() => {
-                                toggleTab("1");
-                              }}
-                            >
-                              <i className="bx bx-chat font-size-20 d-sm-none" />
-                              <span className="d-none d-sm-block">AutoGraph</span>
-                            </NavLink>
-                          </NavItem>
-                          <NavItem>
-                            <NavLink
-                              className={classnames({
-                                active: activeTab === "2",
-                              })}
-                              onClick={() => {
-                                toggleTab("2");
-                              }}
-                            >
-                              <i className="bx bx-group font-size-20 d-sm-none" />
-                              <span className="d-none d-sm-block">Groups</span>
-                            </NavLink>
-                          </NavItem>
-                          <NavItem>
-                            <NavLink
-                              className={classnames({
-                                active: activeTab === "3",
-                              })}
-                              onClick={() => {
-                                toggleTab("3");
-                              }}
-                            >
-                              <i className="bx bx-book-content font-size-20 d-sm-none" />
-                              <span className="d-none d-sm-block">Objects</span>
-                            </NavLink>
-                          </NavItem>
-                        </Nav>
-                        <TabContent activeTab={activeTab} className="pt-3 pb-0">
-                          <TabPane tabId="1">
-                            <div>
-                              <h5 className="font-size-14 mb-3">Graph EndPoints</h5>
-                              <ul className="list-unstyled chat-list" id="recent-list">
-                                <PerfectScrollbar style={{ height: "500px" }}>
-                                  {map(chats, chat => (
-                                    <li
-                                      key={chat.id + chat.status}
-                                      className={
-                                        currentRoomId === chat.roomId
-                                          ? "active"
-                                          : ""
-                                      }
-                                    >
-                                      <Link
-                                        to="#"
-                                        onClick={() => {
-                                          userChatOpen(
-                                            chat.id,
-                                            chat.name,
-                                            chat.status,
-                                            chat.roomId
-                                          );
-                                        }}
-                                      >
-                                        <div className="d-flex">
-                                          <div className="align-self-center me-3">
-                                            <i
-                                              className={
-                                                chat.status === "online"
-                                                  ? "mdi mdi-circle text-success font-size-10"
-                                                  : chat.status === "intermediate"
-                                                    ? "mdi mdi-circle text-warning font-size-10"
-                                                    : "mdi mdi-circle font-size-10"
-                                              }
-                                            />
-                                          </div>
-                                          <div className="align-self-center me-3">
-                                          </div>
-                                          <div className="flex-grow-1 overflow-hidden">
-                                            <h5 className="text-truncate font-size-14 mb-1">
-                                              {chat.name}
-                                            </h5>
-                                            <p className="text-truncate mb-0">
-                                              {chat.description}
-                                            </p>
-                                          </div>
-                                          <div className="font-size-11">
-                                            {chat.time}
-                                          </div>
-                                        </div>
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </PerfectScrollbar>
-                              </ul>
-                            </div>
-                          </TabPane>
+      <div className="toolSet p-2">
+        <ButtonToolbar>
+          <ButtonGroup className="infoTools">
+            <Button id="LiveGraph" className="gBack" size="sm" color="info">
+              <GiIcon.GiCrystalWand className="px-25w" /><br />
+            </Button>
+            <Button className="gBack" size="sm" color="info">
+              <GrIcon.GrGraphQl className="px-25w" />
+            </Button>
+            <Button className="gBack" size="sm" color="info">
+              <AiIcon.AiOutlineNodeExpand className="px-25w" />
+            </Button>
+          </ButtonGroup>
+        </ButtonToolbar>
+      </div>
+      <div className="graphHud">
+        <div className="form-check form-switch mb-3" >
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="customSwitch2"
+            defaultUnChecked
+            onClick={e => {
+              settoggleSwitch(!toggleSwitch)
+            }}
+          />
+          <label
+            className="form-check-label"
+            htmlFor="customSwitch2"
+          >
+            LiveGraph
+          </label>
+        </div>
+      </div>
 
-                          <TabPane tabId="2">
-                            <h5 className="font-size-14 mb-3">Groups</h5>
-                            <ul className="list-unstyled chat-list">
-                              <PerfectScrollbar style={{ height: "500px" }}>
-                                {groups &&
-                                  groups.map(group => (
-                                    <li key={"test" + group.image}>
-                                      <Link
-                                        to="#"
-                                        onClick={() => {
-                                          userChatOpen(
-                                            group.id,
-                                            group.name,
-                                            group.status,
-                                            Math.floor(Math.random() * 100)
-                                          );
-                                        }}
-                                      >
-                                        <div className="d-flex align-items-center">
-                                          <div className="avatar-xs me-3">
-                                            <span className="text-primary">
-                                              icon
-                                            </span>
-                                          </div>
-                                          <div className="flex-grow-1">
-                                            <h5 className="font-size-14 mb-0">
-                                              {group.name}
-                                            </h5>
-                                          </div>
-                                        </div>
-                                      </Link>
-                                    </li>
-                                  ))}
-                              </PerfectScrollbar>
-                            </ul>
-                          </TabPane>
+      <div className="infoSet p-2">
+        <ButtonToolbar>
+          <ButtonGroup className="infoTools">
+            <Button
+              className="gBack"
+              size="sm"
+              color="info"
+              type="button"
+              onClick={() => {
+                tog_Top();
+              }}
+              data-toggle="modal"
+              data-target="#topology"
 
-                          <TabPane tabId="3">
-                            <h5 className="font-size-14 mb-3">Objects</h5>
-
-                            <div>
-                              <PerfectScrollbar style={{ height: "500px" }}>
-                                {contacts &&
-                                  contacts.map(contact => (
-                                    <div
-                                      key={"test_" + contact.category}
-                                      className={
-                                        contact.category === "A" ? "" : "mt-4"
-                                      }
-                                    >
-                                      <div className="avatar-xs mb-0">
-                                        <span className="text-primary">
-                                          {contact.category}
-                                        </span>
-                                      </div>
-
-                                      <ul className="list-unstyled chat-list">
-                                        {contact.child.map(array => (
-                                          <li key={"test" + array.id}>
-                                            <Link
-                                              to="#"
-                                              onClick={() => {
-                                                userChatOpen(
-                                                  array.id,
-                                                  array.name,
-                                                  array.status,
-                                                  Math.floor(Math.random() * 100)
-                                                );
-                                              }}
-                                            >
-                                              <h5 className="font-size-14 mb-0">
-                                                {array.name}
-                                              </h5>
-                                            </Link>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  ))}
-                              </PerfectScrollbar>
-                            </div>
-                          </TabPane>
-                        </TabContent>
-                      </div>
-                </div>
-
-                <div className="toolSet p-2">
-                    <ButtonToolbar>
-                        <ButtonGroup className="infoTools">
-                            <Button id="LiveGraph" className="gBack" size="sm" color="info">
-                              <GiIcon.GiCrystalWand className="px-25w"/><br />
-                            </Button>
-                          <Button className="gBack" size="sm" color="info">
-                            <GrIcon.GrGraphQl className="px-25w"/>
-                          </Button>
-                          <Button className="gBack" size="sm" color="info">
-                            <AiIcon.AiOutlineNodeExpand className="px-25w"/>
-                          </Button>
-                        </ButtonGroup>
-                      </ButtonToolbar>
-                </div>
-                <div className="graphHud">
-                    <div className="form-check form-switch mb-3" >
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="customSwitch2"
-                          defaultUnChecked
-                          onClick={e => {
-                            settoggleSwitch(!toggleSwitch)
-                          }}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="customSwitch2"
-                        >
-                          LiveGraph
-                        </label>
-                    </div>
-                </div>
-
-                <div className="infoSet p-2">
-                    <ButtonToolbar>
-                        <ButtonGroup className="infoTools">
-                          <Button
-                            className="gBack"
-                            size="sm"
-                            color="info"
-                            type="button"
-                            onClick={() => {
-                              tog_Top();
-                            }}
-                            data-toggle="modal"
-                            data-target="#topology"
-
-                          >
-                            <HiIcon.HiOutlinePhotograph className="px-25w"/>
-                          </Button>
-                          <Button
-                            className="gBack"
-                            size="sm"
-                            color="info"
-                            type="button"
-                            onClick={() => {
-                              tog_Mi();
-                            }}
-                            data-toggle="modal"
-                            data-target="#model-info"
-                          >
-                          <HiIcon.HiOutlineInformationCircle className="px-25w"/>
-                          </Button>
-                        </ButtonGroup>
-                      </ButtonToolbar>
+            >
+              <HiIcon.HiOutlinePhotograph className="px-25w" />
+            </Button>
+            <Button
+              className="gBack"
+              size="sm"
+              color="info"
+              type="button"
+              onClick={() => {
+                tog_Mi();
+              }}
+              data-toggle="modal"
+              data-target="#model-info"
+            >
+              <HiIcon.HiOutlineInformationCircle className="px-25w" />
+            </Button>
+          </ButtonGroup>
+        </ButtonToolbar>
 
 
-                      <Modal
-                        size="xl"
-                        className="gBack"
-                        isOpen={modal_top}
-                        toggle={() => {
-                          tog_Top();
-                        }}
-                      >
-                      <div className="modal-header">
-                        <h5
-                          className="modal-title mt-0"
-                          id="myTop"
-                        >
-                          Existing Topology Schematic
-                        </h5>
-                        <button
-                          onClick={() => {
-                            setmodal_top(false);
-                          }}
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                             <img className="topIMG" src={"/images/demoTop.jpg"}></img>
-                      </div>
-                    </Modal>
-                      <Modal
-                        size="xl"
-                        isOpen={modal_mi}
-                        toggle={() => {
-                          tog_Mi();
-                        }}
-                      >
-                      <div className="modal-header">
-                        <h5
-                          className="modal-title mt-0"
-                          id="graphModelInfo"
-                        >
-                          AutoGraph - LiveGraph
-                        </h5>
-                        <button
-                          onClick={() => {
-                            setmodal_mi(false);
-                          }}
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <p>Cras mattis consectetur purus sit amet fermentum.
-                          Cras justo odio, dapibus ac facilisis in,
-                          egestas eget quam. Morbi leo risus, porta ac
-                          consectetur ac, vestibulum at eros.</p>
-                        <p>Praesent commodo cursus magna, vel scelerisque
-                          nisl consectetur et. Vivamus sagittis lacus vel
-                          augue laoreet rutrum faucibus dolor auctor.</p>
-                        <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
-                          Praesent commodo cursus magna, vel scelerisque
-                          nisl consectetur et. Donec sed odio dui. Donec
-                          ullamcorper nulla non metus auctor
-                          fringilla.</p>
-                      </div>
-                    </Modal>
+        <Modal
+          size="xl"
+          className="gBack"
+          isOpen={modal_top}
+          toggle={() => {
+            tog_Top();
+          }}
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="myTop"
+            >
+              Existing Topology Schematic
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_top(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <img className="topIMG" src={"/images/demoTop.jpg"}></img>
+          </div>
+        </Modal>
+        <Modal
+          size="xl"
+          isOpen={modal_mi}
+          toggle={() => {
+            tog_Mi();
+          }}
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="graphModelInfo"
+            >
+              AutoGraph - LiveGraph
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_mi(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <p>Cras mattis consectetur purus sit amet fermentum.
+              Cras justo odio, dapibus ac facilisis in,
+              egestas eget quam. Morbi leo risus, porta ac
+              consectetur ac, vestibulum at eros.</p>
+            <p>Praesent commodo cursus magna, vel scelerisque
+              nisl consectetur et. Vivamus sagittis lacus vel
+              augue laoreet rutrum faucibus dolor auctor.</p>
+            <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
+              Praesent commodo cursus magna, vel scelerisque
+              nisl consectetur et. Donec sed odio dui. Donec
+              ullamcorper nulla non metus auctor
+              fringilla.</p>
+          </div>
+        </Modal>
 
-                </div>
-    <ForceGraph3D
-            graphData={data[0]}
-            nodeLabel="id"
-            nodeAutoColorBy="connections"
-            nodeOpacity="1"
-            linkOpacity={.8}
-            LinkWidth={4}
-            onNodeClick={node => tog_nodeinfo()}
+      </div>
+      <ForceGraph3D
+        graphData={data[0]}
+        nodeLabel="id"
+        nodeAutoColorBy="connections"
+        nodeOpacity="1"
+        linkOpacity={.8}
+        LinkWidth={4}
+        onNodeClick={node => tog_nodeinfo()}
 
-    />
+      />
 
-                      <Modal
-                      size="sm"
-                      isOpen={modal_nodeinfo}
-                      className="gBack"
-                      toggle={() => {
-                        tog_nodeinfo();
-                      }}
-                    >
-                      <div className="modal-header">
-                        <h5
-                          className="modal-title mt-0"
-                          id="mynodeinfoModalLabel"
-                        >
-                        </h5>
-                        <button
-                          onClick={() => {
-                            setmodal_nodeinfo(false);
-                          }}
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <p>
-                          Cras mattis consectetur purus sit amet fermentum.
-                          Cras justo odio, dapibus ac facilisis in, egestas
-                          eget quam. Morbi leo risus, porta ac consectetur
-                          ac, vestibulum at eros.
-                        </p>
-                      </div>
-                    </Modal>
+      <Modal
+        size="sm"
+        isOpen={modal_nodeinfo}
+        className="gBack"
+        toggle={() => {
+          tog_nodeinfo();
+        }}
+      >
+        <div className="modal-header">
+          <h5
+            className="modal-title mt-0"
+            id="mynodeinfoModalLabel"
+          >
+          </h5>
+          <button
+            onClick={() => {
+              setmodal_nodeinfo(false);
+            }}
+            type="button"
+            className="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <p>
+            Cras mattis consectetur purus sit amet fermentum.
+            Cras justo odio, dapibus ac facilisis in, egestas
+            eget quam. Morbi leo risus, porta ac consectetur
+            ac, vestibulum at eros.
+          </p>
+        </div>
+      </Modal>
     </ React.Fragment>
 
-);
+  );
 
-// onNodeClick={node => window.open(`https://github.com/${node.user}/${node.package}`, '_blank')}
+  // onNodeClick={node => window.open(`https://github.com/${node.user}/${node.package}`, '_blank')}
 
-autograph.propTypes = {
-  graphData: PropTypes.object,
-  Img: PropTypes.object,
-  chats: PropTypes.array,
-  groups: PropTypes.array,
-  contacts: PropTypes.array,
-  messages: PropTypes.array,
-  onGetChats: PropTypes.func,
-  onGetGroups: PropTypes.func,
-  onGetContacts: PropTypes.func,
-  onGetMessages: PropTypes.func,
-  onAddMessage: PropTypes.func,
-};
+  autograph.propTypes = {
+    graphData: PropTypes.object,
+    Img: PropTypes.object,
+    chats: PropTypes.array,
+    groups: PropTypes.array,
+    contacts: PropTypes.array,
+    messages: PropTypes.array,
+    onGetChats: PropTypes.func,
+    onGetGroups: PropTypes.func,
+    onGetContacts: PropTypes.func,
+    onGetMessages: PropTypes.func,
+    onAddMessage: PropTypes.func,
+  };
 }
 export default autograph;

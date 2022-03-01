@@ -213,10 +213,10 @@ const monoMic = props => {
   }, []);
 
 
-  const onNodeClick = function(node, event) {
+  const onNodeClick = function (node, event) {
     console.log(data[0])
-    for (var entry in data[0]["nodes"]){
-      if(data[0]["nodes"][entry].id == node.id){
+    for (var entry in data[0]["nodes"]) {
+      if (data[0]["nodes"][entry].id == node.id) {
         window.alert("IP: " + String(node.id).split(":")[0] + " with port " + String(node.id).split(":")[1] + " is part of cluster number " + data[0]["nodes"][entry].group)
       }
     }
@@ -224,141 +224,128 @@ const monoMic = props => {
   }
 
 
-const [data, setData] = useState([])
+  const [data, setData] = useState([])
 
-return (
-<React.Fragment>
-                <div className="intelBar pt-3">
-                <span>CloudRedi - Mono to Micro</span>
-                <ButtonToolbar className="position-absolute m-1 top-0 end-0">
-                              <ButtonGroup className="infoTools">
-                                <Button 
-                                  className="gBack" 
-                                  size="sm" 
-                                  color="info"
-                                  type="button"
-                                  onClick={() => {
-                                    tog_Top();
-                                  }}
-                                  data-toggle="modal"
-                                  data-target="#topology"
-      
-                                >
-                                <HiIcon.HiOutlinePhotograph className="px-25w"/>
-                                </Button>
-                                <Button 
-                                  className="gBack" 
-                                  size="sm" 
-                                  color="info"
-                                  type="button"
-                                  onClick={() => {
-                                    tog_Mi();
-                                  }}
-                                  data-toggle="modal"
-                                  data-target="#model-info"
-                                >
-                                <HiIcon.HiOutlineInformationCircle className="px-25w"/>
-                                </Button>
-                              </ButtonGroup>
-                            </ButtonToolbar>
-                            <Modal
-                              size="xl"
-                              className="gBack"
-                              isOpen={modal_top}
-                              toggle={() => {
-                                tog_Top();
-                              }}
-                            >
-                            <div className="modal-header">
-                              <h5
-                                className="modal-title mt-0"
-                                id="myTop"
-                              >
-                                Existing Topology Schematic
-                              </h5>
-                              <button
-                                onClick={() => {
-                                  setmodal_top(false);
-                                }}
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div className="modal-body">
-                                  <img className="topIMG" src={"/images/demoTop.png"}></img>
-                            </div>
-                          </Modal>
-                            <Modal
-                              size="xl"
-                              isOpen={modal_mi}
-                              toggle={() => {
-                                tog_Mi();
-                              }}
-                            >
-                            <div className="modal-header">
-                              <h5
-                                className="modal-title mt-0"
-                                id="graphModelInfo"
-                              >
-                                CloudRedi - Mono to Micro
-                              </h5>
-                              <button
-                                onClick={() => {
-                                  setmodal_mi(false);
-                                }}
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div className="modal-body">
-                              <p>Cras mattis consectetur purus sit amet fermentum.
-                                Cras justo odio, dapibus ac facilisis in,
-                                egestas eget quam. Morbi leo risus, porta ac
-                                consectetur ac, vestibulum at eros.</p>
-                              <p>Praesent commodo cursus magna, vel scelerisque
-                                nisl consectetur et. Vivamus sagittis lacus vel
-                                augue laoreet rutrum faucibus dolor auctor.</p>
-                              <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
-                                Praesent commodo cursus magna, vel scelerisque
-                                nisl consectetur et. Donec sed odio dui. Donec
-                                ullamcorper nulla non metus auctor
-                                fringilla.</p>
-                            </div>
-                          </Modal>
-                </div>
+  return (
+    <React.Fragment>
+      <div className="bread-bar">
+        <span>Monolithic apps</span>
+      </div>
 
+      <div className="main-content mono-mic">
+        <div className="intelBar">
+          <Link className="link" to="/MonoMic/application">
+            <span>
+              <i className="fas fa-browser fa-fw"></i>
 
-    <ForceGraph3D
-            graphData={data[0]}
-            nodeLabel="id"
-            nodeAutoColorBy="connections"
-            nodeOpacity="1"
-            linkOpacity=".8"
-            getGraphBbox= {node => true}
-            onNodeClick={onNodeClick}
-    />
-</ React.Fragment>
-);
-autograph.propTypes = {
-  graphData: PropTypes.object,
-  Img: PropTypes.object,
-  chats: PropTypes.array,
-  groups: PropTypes.array,
-  contacts: PropTypes.array,
-  messages: PropTypes.array,
-  onGetChats: PropTypes.func,
-  onGetGroups: PropTypes.func,
-  onGetContacts: PropTypes.func,
-  onGetMessages: PropTypes.func,
-  onAddMessage: PropTypes.func,
-};
+              Application
+            </span>
+          </Link>
+
+          <Link className="link" to="/MonoMic/services">
+            <span>
+              <i className="fas fa-gear fa-fw"></i>
+
+              Services
+            </span>
+          </Link>
+
+          <Link className="link" to="/MonoMic/processes">
+            <span>
+              <i className="fas fa-microchip fa-fw"></i>
+
+              Processes
+            </span>
+          </Link>
+
+          <Link className="link" to="/MonoMic/host">
+            <span>
+              <i className="fas fa-server fa-fw"></i>
+
+              Host
+            </span>
+          </Link>
+
+          <Link className="link" to="/MonoMic/database">
+            <span>
+              <i className="fas fa-database fa-fw"></i>
+
+              Database
+            </span>
+          </Link>
+        </div>
+
+        <div className="data-source">
+          <div className="source-title">
+            <div className="title-left">
+              <h3>Monolithic Application</h3>
+              <h4>Listing of monolithic applications within your current environment.</h4>
+            </div>
+
+            <div className="title-right">
+              <h2 className="text-uppercase">Data sources</h2>
+            </div>
+          </div>
+
+          <div className="table-wrapper scrollable">
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ width: "20%" }}>Application</th>
+                  <th>Complexity Score</th>
+                  <th>Size</th>
+                  <th>Host</th>
+                  <th>Number of Services</th>
+                  <th>Number of Processes</th>
+                  <th>Datacenters</th>
+                  <th>Number of Dependencies</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td style={{ width: "20%" }} > Application</td>
+                  <td>Complexity Score</td>
+                  <td>Size</td>
+                  <td>Host</td>
+                  <td>Number of Services</td>
+                  <td>Number of Processes</td>
+                  <td>Datacenters</td>
+                  <td>Number of Dependencies</td>
+                </tr>
+
+                {
+                  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(item =>
+                    <tr>
+                      <td style={{ width: "20%" }} > Application</td>
+                      <td>Complexity Score</td>
+                      <td>Size</td>
+                      <td>Host</td>
+                      <td>Number of Services</td>
+                      <td>Number of Processes</td>
+                      <td>Datacenters</td>
+                      <td>Number of Dependencies</td>
+                    </tr>
+                  )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ React.Fragment >
+  );
+  autograph.propTypes = {
+    graphData: PropTypes.object,
+    Img: PropTypes.object,
+    chats: PropTypes.array,
+    groups: PropTypes.array,
+    contacts: PropTypes.array,
+    messages: PropTypes.array,
+    onGetChats: PropTypes.func,
+    onGetGroups: PropTypes.func,
+    onGetContacts: PropTypes.func,
+    onGetMessages: PropTypes.func,
+    onAddMessage: PropTypes.func,
+  };
 }
 export default monoMic;

@@ -143,11 +143,11 @@ const Dashboard = props => {
               <CardDeck className="card-deck-wrapper">
                 <div className="card-group">
                   <Card className="mb-4 me-2">
-                    <CardImg 
-                      top 
-                      className="img-fluid" 
-                      src={img4} 
-                      alt="TechKnow" 
+                    <CardImg
+                      top
+                      className="img-fluid"
+                      src={img4}
+                      alt="TechKnow"
                     />
                     <CardBody>
                       <CardTitle className="mt-0">Maestro</CardTitle>
@@ -158,15 +158,15 @@ const Dashboard = props => {
                           Putting the power of AI directly into the hands of decision makers.
                         </small>
                         <button
-                      type="button"
-                      onClick={() => {
-                        tog_xlarge();
-                      }}
-                      className="btn btn-info fa FaPlay"
-                      data-toggle="modal"
-                    >
-                      Play
-                    </button>
+                          type="button"
+                          onClick={() => {
+                            tog_xlarge();
+                          }}
+                          className="btn btn-info fa FaPlay"
+                          data-toggle="modal"
+                        >
+                          Play
+                        </button>
                         <Modal
                           size="xl"
                           isOpen={modal_xlarge}
@@ -189,13 +189,13 @@ const Dashboard = props => {
                             </button>
                           </div>
                           <div className="modal-body position-relative">
-                              <div className="embed-responsive embed-responsive-16by9 ratio ratio-16x9">
-                                <iframe
+                            <div className="embed-responsive embed-responsive-16by9 ratio ratio-16x9">
+                              <iframe
                                 title="Meet Maestro"
                                 className="embed-responsive-item"
                                 src="https://web.microsoftstream.com/embed/video/2cf71ff2-4beb-4a64-8043-e8c2e6043f07?autoplay=false&showinfo=true"
-                                />
-                              </div>
+                              />
+                            </div>
                           </div>
                         </Modal>
                       </CardText>
@@ -232,12 +232,12 @@ const Dashboard = props => {
             </Col>
           </Row>
           <Row>
-          <h2 className="my-3">Maestro Catalogs</h2>
+            <h2 className="my-3">Maestro Catalogs</h2>
           </Row>
         </Container>
-          <CatRow CatTitle="TechKnow"/>
+        <CatRow CatTitle="TechKnow" />
 
-          <CatRowcr CatTitlecr="CloudRedi"/>
+        <CatRowcr CatTitlecr="CloudRedi" />
         <Container fluid>
 
         </Container>

@@ -185,6 +185,7 @@ import rcaa from "../pages/TechKnow/rcaa"
 //Cloud Redi
 import cloudredi from "../pages/CloudRedi/cloudredi"
 import monomic from "../pages/CloudRedi/monomic"
+import application from "../pages/CloudRedi/monomic-application"
 import appcon from "../pages/CloudRedi/appcon"
 import apprat from "../pages/CloudRedi/apprat"
 import hardcloud from "../pages/CloudRedi/hardcloud"
@@ -203,6 +204,7 @@ const authProtectedRoutes = [
 
   { path: "/CloudRedi", component: cloudredi },
   { path: "/MonoMic", component: monomic },
+  { path: "/MonoMic/application", component: application },
   { path: "/hardware_2_cloud", component: hardware_2_cloud },
   { path: "/containerization_model", component: containerization_model },
   { path: "/AppCon", component: appcon },
@@ -341,8 +343,8 @@ const authProtectedRoutes = [
   { path: "/ui-notifications", component: UiNotifications },
   { path: "/ui-offcanvas", component: UiOffCanvas },
   { path: "/ui-breadcrumb", component: UiBreadcrumb },
-  { path : "/ui-placeholders" , component : UiPlaceholders},
-  { path : "/ui-toasts" , component : UiToasts},
+  { path: "/ui-placeholders", component: UiPlaceholders },
+  { path: "/ui-toasts", component: UiToasts },
 
   //Utility
   { path: "/pages-pagestarter", component: PagesStarter },

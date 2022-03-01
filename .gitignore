@@ -6,6 +6,7 @@
 .pnp.js
 
 /Application/node_modules
+/Application/build
 
 /Dashboard-crypto
 /Dashboard-save

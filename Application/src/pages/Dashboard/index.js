@@ -194,7 +194,7 @@ const Dashboard = props => {
                                 title="Meet Maestro"
                                 className="embed-responsive-item"
                                 src="https://web.microsoftstream.com/embed/video/2cf71ff2-4beb-4a64-8043-e8c2e6043f07?autoplay=false&showinfo=true"
-                              />
+                              />z
                             </div>
                           </div>
                         </Modal>

@@ -495,7 +495,7 @@ span.flatpickr-weekday {
     display: block;
     top: 170px;
     left: 0;
-    width: 250px;
+    width: 20rem;
     padding: 0;
     border: none;
     background: #222736;
@@ -533,6 +533,16 @@ span.flatpickr-weekday {
         color: #161619;
       }
     }
+  }
+
+  .search-label {
+    margin: 0;
+  }
+
+  .search-icon {
+    top: 45%;
+    left: 10px;
+    transform: translateY(-50%);
   }
 
   .data-source {
@@ -602,6 +612,68 @@ span.flatpickr-weekday {
   .intelBar {
     background: #000011;
   }
+
+  .scene-container {
+    cursor: url("../images/wand_onClick.svg"), auto;
+  }
+}
+
+.small-wand {
+  position: absolute;
+  top: 1.5rem;
+  left: 21rem;
+
+  background: transparent;
+  border: 0;
+
+  cursor: no-drop;
+  opacity: .35;
+
+  &.active {
+    cursor: pointer;
+    opacity: 1;
+  }
+}
+
+.ReactModal__Overlay {
+  // width: 30rem !important;
+  // height: 30rem !important;
+  // left: 28rem !important; 
+  // top: -1rem !important;
+  background: rgba(0,0,0,0.4) !important;
+
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.ReactModal__Content.ReactModal__Content--after-open {
+  background: #cba02b !important;
+  width: 28rem !important;
+  left: 25rem !important;
+  padding: 30px !important;
+  height: 20rem !important;
+  border: 0 !important;
+  top: 4rem !important;
+
+  h2 {
+    color: #000;
+    font-family: monospace;
+
+    span {
+      font-family: cursive;
+    }
+  }
 }
 
 .scrollable {
@@ -623,5 +695,91 @@ span.flatpickr-weekday {
   &:hover::-webkit-scrollbar-track {
     background: rgba(0,0,0,0.25);
     border-radius: 5px;
+  }
+}
+
+.intelBar {
+  .link {
+    position: relative; 
+
+    &:hover {
+      .service-box {
+        background: #0195a6;
+  
+        i, span {
+          color: #1b474d;
+        }
+      }
+
+      .service-container {
+        border-color: #0195a6;
+      }
+    }
+  }
+
+  .link .fa-arrow-up-right-from-square, .link  .fa-map-location-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin-right: 0;
+    font-size: 20px;
+    color: #818f92;
+  }
+
+  .fa-duotone {
+    &::before {
+      color: #a2f6ff;
+    }
+
+    &::after {
+      color: #ffb0ce;
+    }
+  }
+
+  .fa-arrow-up-right-from-square {
+    color: #808f90;
+  }
+
+  .service-container {
+    position: absolute;
+    padding: 3px;
+    width: 57px;
+    height: 57px;
+    top: 60%;
+    right: 10%;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 10px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    transition: all .35s;
+  }
+
+  .service-box {
+    background: #7f7e81;
+    border-radius: 50%;
+    transition: all .35s;
+
+    i, span {
+      transition: all .35s;
+    }
+
+    i {
+      font-size: 22px;
+      margin-right: 0;
+    }
+
+    span {
+      font-size: 13px;
+      color: #212226;
+    }
+  }
+
+  .service-icon {
+    padding: 3px;
+  }
+
+  .service-icon, .service-text {
+    text-align: center;
   }
 }

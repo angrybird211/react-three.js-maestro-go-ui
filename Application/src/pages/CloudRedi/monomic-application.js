@@ -1,217 +1,138 @@
-import React, { useEffect, useState } from "react";
-import MetaTags from "react-meta-tags";
-import PropTypes from "prop-types";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { isEmpty, map } from "lodash";
-import moment from "moment";
 import axios from "axios"
-import {
-    Button,
-    ButtonToolbar,
-    ButtonGroup,
-    Input,
-    InputGroup,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent,
-    TabPane,
-    Tooltip,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
+import * as d3 from "d3";
+import * as THREE from "three";
+import { CSS3DObject, CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer.js";
 
-} from "reactstrap";
-import classnames from "classnames";
-
-
-// ---------
-// .start API Calls
-//import api from '../../intelooServices/api/techknow'
-//import auto from '../../intelooServices/api/api_tech'
-
-//Import Scrollbar
-import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 
-//icon
-import * as faIcon from 'react-icons/fa'
-import * as HiIcon from 'react-icons/hi'
-import * as GiIcon from 'react-icons/gi'
-import * as RiIcon from 'react-icons/ri'
-import * as GrIcon from 'react-icons/gr'
-import * as AiIcon from 'react-icons/ai'
-
-//Import Breadcrumb
-import Breadcrumbs from "components/Common/Breadcrumb";
-import images from "assets/images";
-import {
-    addMessage as onAddMessage,
-    getChats as onGetChats,
-    getContacts as onGetContacts,
-    getGroups as onGetGroups,
-    getMessages as onGetMessages,
-} from "store/actions";
-
 //redux
-import { useSelector, useDispatch } from "react-redux";
 import ForceGraph3D from 'react-force-graph-3d';
-import myData from "../../datasets/demoData.json";
-import Intel from '../../components/3dgraph/inteligraph';
+import { CSSTransition } from 'react-transition-group';
+import Modal from 'react-modal';
 
-const monoMic = props => {
-    const dispatch = useDispatch();
+import process from '../../common/data/mm_process.json';
+import service from '../../common/data/mm_service.json';
+import application from '../../common/data/monoMicAppList.json';
 
-    const { chats, groups, contacts, messages } = useSelector(state => ({
-        chats: state.chat.chats,
-        groups: state.chat.groups,
-        contacts: state.chat.contacts,
-        messages: state.chat.messages,
-    }));
+import wand from "../../assets/images/wand.svg";
 
-    const [messageBox, setMessageBox] = useState(null);
-    // const Chat_Box_Username2 = "Maestro"
-    const [currentRoomId, setCurrentRoomId] = useState(1);
-    // eslint-disable-next-line no-unused-vars
-    const [currentUser, setCurrentUser] = useState({
-        name: "Maestro",
-        isActive: true,
-    });
-    const [menu1, setMenu1] = useState(false);
-    const [search_Menu, setsearch_Menu] = useState(false);
-    const [settings_Menu, setsettings_Menu] = useState(false);
-    const [other_Menu, setother_Menu] = useState(false);
-    const [activeTab, setactiveTab] = useState("1");
-    const [Chat_Box_Username, setChat_Box_Username] = useState("Maestro");
-    // eslint-disable-next-line no-unused-vars
-    const [Chat_Box_User_Status, setChat_Box_User_Status] = useState("online");
-    const [curMessage, setcurMessage] = useState("");
+const monoMicApplication = () => {
+    const fgRef = useRef();
+    const [highlightNode, setHighlightNode] = useState(null);
+    const [highlightLinks, setHighlightLinks] = useState([]);
+    const [hoverNode, setHoverNode] = useState(null);
+    const [data, setData] = useState({ links: [], nodes: [] });
+    const [isOpenModal, setModalState] = useState(false);
+    const modalStyles = {
+        overlay: {
+            backgroundColor: '#ffffff',
+        },
+    };
+    const icons = ["fas fa-browser fa-fw", "fas fa-gear fa-fw", "fas fa-microchip fa-fw", "fas fa-microchip fa-fw", "fas fa-microchip fa-fw"];
+    const types = ["Application", "Service", "Process", "Host", "Database"];
+
+    const NODE_R = 12;
 
     useEffect(() => {
-        dispatch(onGetChats());
-        dispatch(onGetGroups());
-        dispatch(onGetContacts());
-        dispatch(onGetMessages(currentRoomId));
-    }, [onGetChats, onGetGroups, onGetContacts, onGetMessages, currentRoomId]);
+        // axios
+        //     .get("https://maestro2go.azurewebsites.net/api/mono_2_micro", {
+        //         headers: { "Access-Control-Allow-Origin": "*", },
+        //     })
+        //     .then((res) => {
+        //         setData(res.data);
+        //     });
+        let links = [], nodes = [];
 
-    useEffect(() => {
-        if (!isEmpty(messages)) scrollToBottom();
-    }, [messages]);
-
-    // const toggleNotification = () => {
-    //   setnotification_Menu(!notification_Menu)
-    // }
-
-    //Toggle Chat Box Menus
-    const toggleSearch = () => {
-        setsearch_Menu(!search_Menu);
-    };
-
-    const toggleSettings = () => {
-        setsettings_Menu(!settings_Menu);
-    };
-
-    const toggleOther = () => {
-        setother_Menu(!other_Menu);
-    };
-
-    const toggleTab = tab => {
-        if (activeTab !== tab) {
-            setactiveTab(tab);
-        }
-    };
-
-    //Use For Chat Box
-    const userChatOpen = (id, name, status, roomId) => {
-        setChat_Box_Username(name);
-        setCurrentRoomId(roomId);
-        dispatch(onGetMessages(roomId));
-    };
-
-    const addMessage = (roomId, sender) => {
-        const message = {
-            id: Math.floor(Math.random() * 100),
-            roomId,
-            sender,
-            message: curMessage,
-            createdAt: new Date(),
-        };
-        setcurMessage("");
-        dispatch(onAddMessage(message));
-    };
-
-    const scrollToBottom = () => {
-        if (messageBox) {
-            messageBox.scrollTop = messageBox.scrollHeight + 1000;
-        }
-    };
-
-    const onKeyPress = e => {
-        const { key, value } = e;
-        if (key === "Enter") {
-            setcurMessage(value);
-            addMessage(currentRoomId, currentUser.name);
-        }
-    };
-
-
-    //Modal Toggling
-    const [modal_mi, setmodal_mi] = useState(false);
-    const [modal_top, setmodal_top] = useState(false);
-
-    function tog_Top() {
-        setmodal_top(!modal_top);
-        removeBodyCss();
-    }
-
-    function tog_Mi() {
-        setmodal_mi(!modal_mi);
-        removeBodyCss();
-    }
-
-    function removeBodyCss() {
-        document.body.classList.add("no_padding");
-    }
-
-    //Toggle Switches
-
-    const [toggleSwitch, settoggleSwitch] = useState(true);
-    const [toggleSwitchSize, settoggleSwitchSize] = useState(true);
-
-
-    //serach recent user
-    const searchUsers = () => {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("search-user");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("recent-list");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    };
-
-
-    //3d Graph
-
-    useEffect(() => {
-        axios
-            .get("https://maestro2go.azurewebsites.net/api/auto_graph", {
-                headers: { "Access-Control-Allow-Origin": "*", },
+        application[0].appList.forEach(app => {
+            service.forEach(ser => {
+                if (ser.appID === app.id) {
+                    links.push({ "source": "app-" + app.id, "target": "service-" + ser.id, value: 0, type: "solid", color: "#fff" });
+                }
             })
-            .then((res) => {
-                setData(res.data);
-            });
+        });
+
+        application[0].appList.forEach(app => {
+            process.forEach(pro => {
+                if (pro.appID === app.id) {
+                    links.push({ "source": "process-" + pro.id, "target": "app-" + app.id, value: 0, type: "dotted", color: "#0f0" });
+                }
+            })
+        });
+
+        application[0].appList.forEach(app => {
+            let nodeLinks = links.filter(link => link.target === "app-" + app.id || link.source === "app-" + app.id);
+            nodes.push({ group: 1, id: "app-" + app.id, links: nodeLinks, icon: "fas fa-browser fa-fw" });
+            console.log("nodelinks are", nodeLinks);
+        });
+
+        service.forEach(ser => {
+            nodes.push({ group: 2, app: ser.appID, id: "service-" + ser.id, links: [] });
+        });
+
+        process.forEach(pro => {
+            nodes.push({ group: 3, app: pro.appID, id: "process-" + pro.id, links: [] });
+        });
+
+        console.log("links are", links, nodes);
+
+        setData({ links: links, nodes: nodes });
     }, []);
 
+    const toggleModal = () => {
+        setModalState(!isOpenModal);
+    };
+
+    const updateHighlight = () => {
+        setHighlightNode(highlightNode);
+        setHighlightLinks(highlightLinks);
+    };
+
+    // const handleNodeClick = useCallback(
+    //     (node) => {
+    //         d3.selectAll("#node-info-container").remove();
+    //         // Aim at node from outside it
+    //         const distance = 400;
+    //         const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+
+    //         fgRef.current.cameraPosition(
+    //             { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+    //             node, // lookAt ({ x, y, z })
+    //             3000  // ms transition duration
+    //         );
+
+    //         console.log("node is", node);
+    //     },
+    //     [fgRef]
+    // );
+
+    const handleNodeClick = node => {
+        d3.selectAll("#node-info-container").remove();
+        // Aim at node from outside it
+        const distance = 400;
+        const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+
+        fgRef.current.cameraPosition(
+            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+        );
+
+        setHighlightLinks([node.links]);
+        setHighlightNode(node);
+        console.log("hgith is", highlightLinks, highlightNode);
+        // highlightNode.clear();
+        // highlightLinks.clear();
+        // if (node) {
+        //     highlightNode.add(node);
+        //     // node.neighbors.forEach(neighbor => highlightNode.add(neighbor));
+        //     // node.links.forEach(link => highlightLinks.add(link));
+        // }
+
+        // setHoverNode(node || null);
+        // updateHighlight();
+    };
 
     const onNodeClick = function (node, event) {
         console.log(data[0])
@@ -223,8 +144,13 @@ const monoMic = props => {
 
     }
 
-
-    const [data, setData] = useState([])
+    const paintRing = useCallback((node, ctx) => {
+        // add ring just for highlighted nodes
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, NODE_R * 1.4, 0, 2 * Math.PI, false);
+        ctx.fillStyle = node === hoverNode ? 'red' : 'orange';
+        ctx.fill();
+    }, [hoverNode]);
 
     return (
         <React.Fragment>
@@ -235,6 +161,8 @@ const monoMic = props => {
             <div className="main-content mono-mic mono-app">
                 <div className="intelBar">
                     <Link className="link active" to="/MonoMic/application">
+                        <i className="fa-duotone fa-map-location-dot"></i>
+
                         <span>
                             <i className="fas fa-browser fa-fw"></i>
 
@@ -243,11 +171,27 @@ const monoMic = props => {
                     </Link>
 
                     <Link className="link" to="/MonoMic/services">
+                        <i className="fa-solid fa-arrow-up-right-from-square"></i>
+
                         <span>
                             <i className="fas fa-gear fa-fw"></i>
 
                             Services
                         </span>
+
+                        <div className="service-container">
+                            <div className="service-box">
+                                <div className="service-icon">
+                                    <i className="fas fa-gear fa-fw"></i>
+                                </div>
+
+                                <div className="service-text">
+                                    <span>
+                                        32
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </Link>
 
                     <Link className="link" to="/MonoMic/processes">
@@ -256,6 +200,20 @@ const monoMic = props => {
 
                             Processes
                         </span>
+
+                        <div className="service-container">
+                            <div className="service-box">
+                                <div className="service-icon">
+                                    <i className="fas fa-microchip fa-fw"></i>
+                                </div>
+
+                                <div className="service-text">
+                                    <span>
+                                        32
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </Link>
 
                     <Link className="link" to="/MonoMic/host">
@@ -264,6 +222,20 @@ const monoMic = props => {
 
                             Host
                         </span>
+
+                        <div className="service-container">
+                            <div className="service-box">
+                                <div className="service-icon">
+                                    <i className="fas fa-server fa-fw"></i>
+                                </div>
+
+                                <div className="service-text">
+                                    <span>
+                                        32
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </Link>
 
                     <Link className="link" to="/MonoMic/database">
@@ -272,33 +244,107 @@ const monoMic = props => {
 
                             Database
                         </span>
+
+                        <div className="service-container">
+                            <div className="service-box">
+                                <div className="service-icon">
+                                    <i className="fas fa-database fa-fw"></i>
+                                </div>
+
+                                <div className="service-text">
+                                    <span>
+                                        32
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </Link>
+
+                    <button className={`small-wand ${highlightNode !== null ? 'active' : ''}`} onClick={toggleModal}>
+                        <img src={wand} alt="wand-logo" />
+                    </button>
                 </div>
 
                 <ForceGraph3D
-                    graphData={data[0]}
+                    nodeRelSize={NODE_R}
+                    ref={fgRef}
+                    graphData={data}
+                    extraRenderers={[new CSS3DRenderer()]}
+                    autoPauseRedraw={false}
                     nodeLabel="id"
-                    nodeAutoColorBy="connections"
-                    nodeOpacity="1"
+                    nodeAutoColorBy="group"
+                    nodeThreeObject={node => {
+                        const nodeEl = document.createElement('i');
+                        nodeEl.className = icons[node.group - 1];
+                        nodeEl.style.color = "#ccc";
+                        nodeEl.style.fontSize = "13px";
+                        return new CSS3DObject(nodeEl);
+                    }}
+
+                    nodeThreeObjectExtend={true}
+
+                    nodeOpacity={1}
                     linkOpacity={.8}
-                    LinkWidth={4}
-                    onNodeClick={node => tog_nodeinfo()}
+                    linkDirectionalParticles={4}
+                    linkDirectionalParticleWidth={node => highlightNode === node ? 4 : 2}
+                    linkWidth={link => highlightLinks.includes(link) ? 2 : 1}
+                    linkColor={link => highlightLinks.indexOf(item => item.id === link.id) > -1 ? "#456cc8" : link.color}
+                    nodeCanvasObject={paintRing}
+                    onNodeClick={handleNodeClick}
+                    nodeCanvasObjectMode={node => highlightNode === node ? 'before' : undefined}
+                    nodeColor={node => highlightNode === node ? "#b1ffa3" : "#2f5f54"}
                 />
             </div>
+
+
+            <CSSTransition
+                in={isOpenModal}
+                timeout={300}
+                classNames="dialog"
+            >
+                <Modal
+                    closeTimeoutMS={500}
+                    isOpen={isOpenModal}
+                    style={modalStyles}
+                    onRequestClose={toggleModal}
+                    onClick={toggleModal}
+                    ariaHideApp={false}
+                >
+                    {
+                        highlightNode !== null ?
+                            <>
+                                <div className="text-wapper">
+                                    <h2>Type: <span>{types[highlightNode.group - 1]}</span></h2>
+                                </div>
+
+                                <div className="text-wapper">
+                                    <h2>App Name: <span>SAP SLD</span></h2>
+                                </div>
+
+                                <div className="text-wapper">
+                                    <h2>Service Name: <span>portal</span></h2>
+                                </div>
+
+                                <div className="text-wapper">
+                                    <h2>Process Name: <span>D4a v4</span></h2>
+                                </div>
+
+                                <div className="text-wapper">
+                                    <h2>Host Name: <span>Host 1</span></h2>
+                                </div>
+
+                                <div className="text-wapper">
+                                    <h2>Database Name: <span>Database 1</span></h2>
+                                </div>
+                            </> : ""
+                    }
+                    {/* <button onClick={toggleModal}>
+                        Close Modal
+                    </button>
+                    <div>Hello World</div> */}
+                </Modal>
+            </CSSTransition>
         </ React.Fragment >
     );
-    autograph.propTypes = {
-        graphData: PropTypes.object,
-        Img: PropTypes.object,
-        chats: PropTypes.array,
-        groups: PropTypes.array,
-        contacts: PropTypes.array,
-        messages: PropTypes.array,
-        onGetChats: PropTypes.func,
-        onGetGroups: PropTypes.func,
-        onGetContacts: PropTypes.func,
-        onGetMessages: PropTypes.func,
-        onAddMessage: PropTypes.func,
-    };
 }
-export default monoMic;
+export default monoMicApplication;

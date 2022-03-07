@@ -698,7 +698,6 @@ const autograph = props => {
         linkOpacity={.8}
         LinkWidth={4}
         onNodeClick={node => tog_nodeinfo()}
-
       />
 
       <Modal

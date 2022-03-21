@@ -185,7 +185,11 @@ import rcaa from "../pages/TechKnow/rcaa"
 //Cloud Redi
 import cloudredi from "../pages/CloudRedi/cloudredi"
 import monomic from "../pages/CloudRedi/monomic"
+import applications from "../pages/CloudRedi/monomic-applications"
 import application from "../pages/CloudRedi/monomic-application"
+import service from "../pages/CloudRedi/monomic-service"
+import host from "../pages/CloudRedi/monomic-host"
+import dataset from "../pages/CloudRedi/monomic-dataset"
 import appcon from "../pages/CloudRedi/appcon"
 import apprat from "../pages/CloudRedi/apprat"
 import hardcloud from "../pages/CloudRedi/hardcloud"
@@ -204,7 +208,11 @@ const authProtectedRoutes = [
 
   { path: "/CloudRedi", component: cloudredi },
   { path: "/MonoMic", component: monomic },
-  { path: "/MonoMic/application", component: application },
+  { path: "/MonoMic/applications/:id", component: applications },
+  { path: "/MonoMic/application/:id", component: application },
+  { path: "/MonoMic/dataset/:id", component: dataset },
+  { path: "/MonoMic/host/:id", component: host },
+  { path: "/MonoMic/service/:id", component: service },
   { path: "/hardware_2_cloud", component: hardware_2_cloud },
   { path: "/containerization_model", component: containerization_model },
   { path: "/AppCon", component: appcon },
